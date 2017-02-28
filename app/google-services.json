@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1011409397728",
+    "firebase_url": "https://camarafotografica-eac14.firebaseio.com",
+    "project_id": "camarafotografica-eac14",
+    "storage_bucket": "camarafotografica-eac14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011409397728:android:a160ab28aa51a0a5",
+        "android_client_info": {
+          "package_name": "com.example.a46453895j.camarafotografica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011409397728-p947fp1eosqeo3rgn858ebqj4csv0kuc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.a46453895j.camarafotografica",
+            "certificate_hash": "7ef3963e6c89296c61b0fba7737310bdfded26d5"
+          }
+        },
+        {
+          "client_id": "1011409397728-tm71igg37fu69puf198pj3m4kjgf97g6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKrrwXfU9Zg0ZW6OW3kWqOvHpwPKONnrU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011409397728-tm71igg37fu69puf198pj3m4kjgf97g6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
