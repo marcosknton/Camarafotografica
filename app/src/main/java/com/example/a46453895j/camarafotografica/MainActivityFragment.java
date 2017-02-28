@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.firebase.ui.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,11 +23,13 @@ import java.util.Date;
 
 /**
  * A placeholder fragment containing a simple view.
+ * 
  */
 public class MainActivityFragment extends Fragment {
 
     String mCurrentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
+    private FirebaseListAdapter mAdapter;
     public MainActivityFragment() {
     }
 
