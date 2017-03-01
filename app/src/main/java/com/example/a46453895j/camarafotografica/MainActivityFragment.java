@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
 
-import com.firebase.ui.FirebaseListAdapter;
+import com.bumptech.glide.Glide;
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,7 +32,7 @@ public class MainActivityFragment extends Fragment {
 
     String mCurrentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
-    private FirebaseListAdapter mAdapter;
+    private FirebaseListAdapter<Imagen> mAdapter;
     public MainActivityFragment() {
     }
 
@@ -37,15 +40,32 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        GridView gridView=(GridView) view.findViewById(R.id.Gvgallery);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("imagen");
+
+        mAdapter=new FirebaseListAdapter<Imagen>(getActivity(),Imagen.class,R.layout.listitem,myRef) {
+            @Override
+            protected void populateView(View view, Imagen imagen, int i) {
+                ImageView img = (ImageView) view.findViewById(R.id.imageView);
+
+                Glide.with(getContext()).load(Uri.fromFile(new File(imagen.getRutaimagen())))
+                        .centerCrop()
+                        .crossFade()
+                        .into(img);
+            }
+        };
+
+        gridView.setAdapter(mAdapter);
+
         Button buttoncamera = (Button) view.findViewById(R.id.Bbutton);
         buttoncamera.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dispatchTakePictureIntent();
+                        dispatchTakePictureIntent(myRef);
                     }
                 });
-
         return view;
     }
     private File createImageFile() throws IOException {
@@ -64,7 +84,7 @@ public class MainActivityFragment extends Fragment {
         mCurrentPhotoPath = "file:" + image.getAbsolutePath();
         return image;
     }
-    private void dispatchTakePictureIntent() {
+    private void dispatchTakePictureIntent(DatabaseReference myRef) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -83,9 +103,7 @@ public class MainActivityFragment extends Fragment {
             if (photoFile != null) {
                 String ruta=photoFile.getAbsolutePath();
                 Imagen imagen=new Imagen(ruta);
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("imagen");
-                myRef.push().setValue(imagen.getRutaimagen());
+                myRef.push().setValue(imagen);
                 Log.i("------------------",imagen.getRutaimagen());
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));

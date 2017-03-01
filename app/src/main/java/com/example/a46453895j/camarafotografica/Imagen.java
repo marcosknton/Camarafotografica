@@ -8,9 +8,9 @@ import java.io.Serializable;
 
 public class Imagen implements Serializable {
 
-    public Imagen(){}
+    private String rutaimagen;
 
-    String rutaimagen;
+    public Imagen(){}
 
 
     public Imagen(String rutaimagen) {
