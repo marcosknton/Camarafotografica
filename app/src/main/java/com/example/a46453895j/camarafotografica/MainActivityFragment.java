@@ -3,6 +3,8 @@ package com.example.a46453895j.camarafotografica;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
@@ -59,10 +62,31 @@ public class MainActivityFragment extends Fragment {
             @Override
             protected void populateView(View view, Imagen imagen, int i) {
                 ImageView img = (ImageView) view.findViewById(R.id.imageView);
-                Glide.with(getContext()).load(Uri.fromFile(new File(imagen.getRutaimagen())))
-                        .centerCrop()
-                        .crossFade()
-                        .into(img);
+                ImageView img2 = (ImageView) view.findViewById(R.id.imageView2);
+
+                if (imagen.getRutaimagen().contains("MP4")){
+
+
+                    img2.setImageResource(R.drawable.play);
+
+                    Glide.with(getContext()).load(Uri.fromFile(new File(imagen.getRutaimagen())))
+                            .centerCrop()
+                            .crossFade()
+                            .into(img);
+
+
+                }
+
+                else {
+                    Glide.with(getContext()).load(Uri.fromFile(new File(imagen.getRutaimagen())))
+                            .centerCrop()
+                            .crossFade()
+                            .into(img);
+                    Glide.with(getContext()).load(Uri.fromFile(new File(imagen.getRutaimagen())))
+                            .centerCrop()
+                            .crossFade()
+                            .into(img2);
+                }
             }
         };
 
@@ -181,21 +205,16 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    public static Bitmap getVideoFrame(Context context, String ruta) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            retriever.setDataSource(ruta,new HashMap<String, String>());
-            return retriever.getFrameAtTime();
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                retriever.release();
-            } catch (RuntimeException ex) {
-            }
-        }
-        return null;
+
+    public Bitmap putOverlay(Bitmap source) {
+        Canvas canvas = new Canvas(source);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.play);
+
+        float left = (source.getWidth() / 2) - (icon.getWidth() / 2);
+        float top = (source.getHeight() / 2) - (icon.getHeight() / 2);
+
+        canvas.drawBitmap(icon, left, top, null);
+
+        return source;
     }
 }
